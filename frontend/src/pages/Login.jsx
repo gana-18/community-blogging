@@ -38,7 +38,7 @@ const Login = () => {
     </div>
     <div className="github">
         <h4>Github repository🚀:</h4>
-        <h4><a href="https://github.com/gana-18/insidecode"> Project</a></h4>
+        <h4><a href="https://github.com/gana-18/community-blogging"> Project</a></h4>
       </div>
     </>
   );
