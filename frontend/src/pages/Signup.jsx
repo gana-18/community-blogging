@@ -8,15 +8,31 @@ function Signup() {
         lastName: '',
         email: '',
         password: '',
+        profilePic:null
     });
 
     const handleData=(e)=>{
-        const {name,value}=e.target;
-        setFormData((prevData)=>({
+        const { name, value, type } = e.target;
+
+        // Handle image file separately
+        if (type === 'file') {
+          const file = e.target.files[0];
+          if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+              setFormData((prevData) => ({
+                ...prevData,
+                profilePic: reader.result, // Store the image URL in state
+              }));
+            };
+            reader.readAsDataURL(file);
+          }
+        } else {
+          setFormData((prevData) => ({
             ...prevData,
-            [name]:value,
-        }))
-        console.log(formData);
+            [name]: value,
+          }));
+        }
     }
 
     const submitData=async(e)=>{
@@ -42,8 +58,13 @@ function Signup() {
                 <input className='text' type="text" placeholder='Username' value={formData.username} onChange={handleData} name='username' />
                 <input className='text' type="text" placeholder='First Name' value={formData.firstName} onChange={handleData} name='firstName' />
                 <input className='text' type="text" placeholder='Last Name' value={formData.lastName} onChange={handleData} name='lastName' />
-                <input className='text' type="text" placeholder='Email' value={formData.email} onChange={handleData} name='email'/>
+                <input className='text' type="email" placeholder='Email' value={formData.email} onChange={handleData} name='email'/>
                 <input className='text' type="password" placeholder='Password' value={formData.passowrd} onChange={handleData} name='password' />
+                <label>Profile Photo</label>
+                <input type="file" name="coverImage" accept="image/*" onChange={handleData}/>
+        {formData.profilePic && (
+          <img src={formData.profilePic} alt="Cover Preview" style={{ maxWidth: '100px' }} />
+        )}
                 <button className='login-submit' type='submit'>Register</button>
             </form>
         </div>

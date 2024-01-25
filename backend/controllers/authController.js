@@ -7,7 +7,7 @@ const secretKey = process.env.SECRET_KEY;
 
 const signupUser = async (req, res) => {
     try {
-      const {username,firstName,lastName,email,password} = req.body;
+      const {username,firstName,lastName,email,password,profilePic} = req.body;
       const existingUser = await User.findOne({ $or: [{ email }, { username }] });
 
       if (existingUser) {
@@ -21,7 +21,8 @@ const signupUser = async (req, res) => {
           firstName:firstName,
           lastName:lastName,
           email:email,
-          password:hashedPassword
+          password:hashedPassword,
+          profilePic:profilePic
       });
       await user.save();
       res.status(201).json(user);

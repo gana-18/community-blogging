@@ -6,6 +6,7 @@ const session=require('express-session');
 const MongoStore=require('connect-mongo')
 const jwt = require('jsonwebtoken');
 const bodyParser = require('body-parser');
+const fileUpload = require('express-fileupload');
 const User=require('./models/User');
 const cors = require('cors');
 const connectDB=require('./config/db')
@@ -16,10 +17,13 @@ app.use(cors());
 const PORT = process.env.PORT || 5000;
 
 app.use(
-    express.urlencoded({ extended: true })
+    express.urlencoded({limit:'10mb',extended: true })
 );
     
-app.use(express.json());
+app.use(express.json({limit:'10mb'}));
+app.use(fileUpload({
+  limits: { fileSize: 10 * 1024 * 1024 }, // 10 MB limit for file uploads
+}));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 

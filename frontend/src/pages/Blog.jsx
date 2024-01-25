@@ -4,7 +4,8 @@ import { Editor } from '@tinymce/tinymce-react';
 import { useEffect } from 'react';
 import { selectUser } from '../reducers/authReducer';
 const BlogInput = () => {
-  const {user} = useSelector(selectUser);
+  const user = useSelector(selectUser);
+  console.log(user);
   const [blogData, setBlogData] = useState({
     title: '',
     content: 'Start your Blog',
