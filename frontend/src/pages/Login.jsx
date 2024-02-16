@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { loginUser } from '../actions/authActions';
 import { redirect, useNavigate } from 'react-router-dom';
 import IMAGES from '../images/images';
-import Loading from '../Loading';
+import Loading from '../loading';
 const Login = () => {
   const dispatch = useDispatch();
   const [email, setEmail] = useState('');
