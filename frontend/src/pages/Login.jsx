@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { loginUser } from '../actions/authActions';
 import { redirect, useNavigate } from 'react-router-dom';
 import IMAGES from '../images/images';
-import LoadingPage from '../Loading';
+import Loading from '../Loading';
 const Login = () => {
   const dispatch = useDispatch();
   const [email, setEmail] = useState('');
@@ -42,7 +42,7 @@ const Login = () => {
             <input type="email" className='text' placeholder='Email' value={email} onChange={(e) => setEmail(e.target.value)} />
             <input type="password" className='text' placeholder='Password' value={password} onChange={(e) => setPassword(e.target.value)} />
             {errorMsg?<p style={eStyle}>*{errorMsg}🫤</p>:null}
-        <button className='login-submit' type="submit" onClick={()=>setClicked(true)}>{!errorMsg && clicked?<LoadingPage/>:"Login"}</button>
+        <button className='login-submit' type="submit" onClick={()=>setClicked(true)}>{!errorMsg && clicked?<Loading/>:"Login"}</button>
         </form>
       </div>
       <p>New to InsideCode? <a href="/signup">Sign up now</a></p>

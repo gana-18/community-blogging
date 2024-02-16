@@ -1,8 +1,8 @@
-function LoadingPage(){
+function Loading(){
     return (
       <div className='loader'>
         <div className='spinner'></div>
       </div>
     );
   };
-  export default LoadingPage;
+  export default Loading;
