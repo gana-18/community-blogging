@@ -224,19 +224,100 @@
   }
   .home{
     display: flex;
+    justify-content:space-around;
+    align-items:flex-start;
+    width:100%;
+  }
+  .home1{
+    display: flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction: column;
+    width:100%;
+  }
+  .home11{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width:60%;
+  }
+  .home-left{
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-direction: column;
+    width:65%;
+  }
+  .home-top{
+    display: flex;
+    flex-direction: row;
+    width:100%;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 30px;
+  }
+  .home-right{
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-direction: column;
+    margin-top:90px;
+  }
+  .side-card{
+    display: flex;
+    background-color: white;
+    border:1px solid #E0E6F1;
+    width:100%;
     align-items: center;
     justify-content: center;
-    flex-direction: column;
+    margin-top:20px;
+    border-radius: 10px;
   }
+  .side-info{
+    padding:15px;
+    width:100%;
+  }
+  .search{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding:5px;
+    background-color: white;
+    border-radius: 30px;
+    width:50%;
+    border: 1px solid #E0E6F1;
+    transition: all 0.5s ease;
+}
+.search:hover{
+  box-shadow: 5px 5px 15px 10px #E0E6F1;
+}
+.search>input{
+    padding:12px;
+    margin:5px;
+    border-radius: 25px;
+    border: none;
+    background-color: #F3F6FD;
+    width:70%;
+}
+.search>img{
+    background-color: #F3F6FD;
+    padding: 5px;
+    margin-left: 5px;
+    border-radius: 50%;
+    width:3em;
+    height: 3em;
+}
   .homelinks{
     display: flex;
-    margin:10px;
+    justify-content: space-around;
+    align-items: center;
+    width:45%;
   }
   .homelinks>div{
     display: flex;
     align-items: center;
     justify-content: center;
-    margin:15px;
     padding:5px 25px 5px 25px;
     background-color: #EFF6FF;
     font-size: 16px;
@@ -249,7 +330,7 @@
     border:1px solid #E0E6F1;
     margin-top:20px;
     padding:15px;
-    width:60%;
+    width:100%;
     height:260px;
     background-color: white;
     border-radius: 10px;
@@ -567,5 +648,24 @@
     border:1px solid #E0E6F1;
     margin:10px;
     padding:10px;
+  }
+  .loader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .spinner {
+    border: 4px solid rgba(255, 254, 254, 0.1);
+    border-left-color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    animation: spin 1s linear infinite;
+  }
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
   }
   

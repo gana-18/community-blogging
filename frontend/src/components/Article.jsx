@@ -8,8 +8,13 @@ export default function Article(props){
       const [author, setAuthor] = useState([]);
       const [isFollowing, setIsFollowing] = useState(false);
 
-      const user=useSelector((state) => state.auth);
+      const {user}=useSelector((state) => state.auth);
       const post = useSelector((state) => state.post);
+
+      const formatDate = (dateString) => {
+        const options = { year: 'numeric', month: 'short', day: 'numeric' };
+        return new Date(dateString).toLocaleDateString(undefined, options);
+      };
 
       const sanitizedContent = { __html: DOMPurify.sanitize(props.item.content) };
 
@@ -20,26 +25,22 @@ export default function Article(props){
         });
       }, [props.item.user, dispatch]);
 
-
       useEffect(() => {
-        if (author && author.followers && author.followers.includes(user._id)) {
-          setIsFollowing(true);
-        } else {
-          setIsFollowing(false);
-        }
-      }, [author, user]);
+        // Check if the user is already following the author
+        const isUserFollowing = user?.following.some((followedId) => followedId === props.item.user);
+        setIsFollowing(isUserFollowing);
+      }, [user, props.item.user]);
 
-      const handleFollow = () => {
+
+      const handleFollow = async() => {
         if (isFollowing) {
           // If the current user is already following the author, unfollow
-          dispatch(removeFollowing(props.item.user, user._id)).then((response) => {
-            setIsFollowing(false);
-          });
+          await dispatch(removeFollowing(props.item.user, user._id))
+          setIsFollowing(false);
         } else {
           // If the current user is not following the author, follow
-          dispatch(addFollowing(props.item.user, user._id)).then((response) => {
-            setIsFollowing(true);
-          });
+          await dispatch(addFollowing(props.item.user, user._id))
+          setIsFollowing(true);
         }
       };
       const postPage = () => {
@@ -48,7 +49,6 @@ export default function Article(props){
       const profilePage = () => {
         window.location.href = `/profile/${author._id}`;
       };
-      console.log(props.item);
     return(
         <>
             <div className="article">
@@ -59,12 +59,11 @@ export default function Article(props){
                         </div>
                         <div onClick={profilePage} className='username'>
                           <h3>{author?author.firstName:"blogger"}</h3>
-                          <p>{props.item.createdAt}</p>
+                          <p>Updated on {formatDate(props.item.createdAt)}</p>
                         </div>
-                        {!isFollowing && <button className='follow' onClick={handleFollow}>
-                          <img src={IMAGES.follow} alt="plus" />
-                          </button>}
-                        {isFollowing && <button className='following' onClick={handleFollow}>Following</button>}
+                        <button className={isFollowing ? 'following' : 'follow'} onClick={handleFollow}>
+                                {isFollowing ? <img src={IMAGES.following} alt="following"/> : <img src={IMAGES.follow} alt="plus" />}
+                        </button>
                     </div>
                     <div onClick={postPage} className="content">
                         <h2>{props.item.title}</h2>

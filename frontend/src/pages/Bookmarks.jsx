@@ -25,8 +25,11 @@ function Bookmarks() {
       ));
 
   return (
-    <div className="home">
-        {cards?cards:<h1>Bookmark posts to see later...</h1>}
+    <div className="home1">
+      <div className="home11">
+      {cards?cards:<h1>Bookmark posts to see later...</h1>}
+      </div>
+        
     </div>
   )
 }

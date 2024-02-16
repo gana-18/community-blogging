@@ -18,6 +18,6 @@ router.put('/user/:id',(req,res)=>{
 
 // @desc DELETE POST BY ID OF USER
 // @Method DELETE
-router.delete('/:id',deletePost)
+router.put('/:id',deletePost)
 
 module.exports=router

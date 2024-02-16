@@ -52,9 +52,12 @@ function Profile() {
     <div className='profile'>
         {card}
     </div>
-    <div className='home'>
+    <div className='home1'>
+      <div className='home11'>
       <h2>Recent Activity</h2>
         {contentCards}
+      </div>
+      
     </div>
     </>
     

@@ -8,6 +8,11 @@ function Card(props) {
     const [bio, setBio] = useState('');
     const isCurrentUser = props.curuser?._id === props.user._id;
 
+    const formatDate = (dateString) => {
+      const options = { year: 'numeric', month: 'short', day: 'numeric' };
+      return new Date(dateString).toLocaleDateString(undefined, options);
+    };
+
     useEffect(() => {
         const savedBio = localStorage.getItem('bio');
         if (savedBio) {
@@ -34,7 +39,7 @@ function Card(props) {
                 <strong>{followersCount}</strong><span>Followers</span>
                 <strong>{followingCount}</strong><span>Following</span>
             </div>
-            <p>Member since {memberSince}</p>
+            <p>Member since {formatDate(memberSince)}</p>
             {isCurrentUser && (
           <>
             {bio ? (

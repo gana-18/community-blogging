@@ -8,7 +8,7 @@ function Post() {
   const { id } = useParams();
 
   const { posts } = useSelector((state) => state.post);
-  const [author, setAuthor] = useState(null);
+  const {author} = useSelector((state) => state.post);
   const [userPost, setUserPost] = useState(null);
 
 
@@ -23,14 +23,12 @@ function Post() {
         // If the post is found, set the userPost state to the post
         setUserPost(userPostById);
         // If the post is found, dispatch the 'fetchAuthor' action with the userPost.user
-        const response = await dispatch(fetchAuthor(userPostById.user));
-        setAuthor(response.payload);
+        dispatch(fetchAuthor(userPostById.user));
       }
     };
 
     fetchPostAndAuthor();
   }, [id, dispatch, posts]);
-  console.log(author, userPost)
   return (
     <div className='post'>
       <PostCard

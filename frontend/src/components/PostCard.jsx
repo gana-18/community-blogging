@@ -7,30 +7,37 @@ function PostCard(props) {
     
     const sanitizedContent = { __html: DOMPurify.sanitize(props.item?props.item.content:null) };
     const {user}=useSelector((state) => state.auth);
-    const {likes} = useSelector((state) => state.post);
-    const {bookmarks} = useSelector((state) => state.post);
-    console.log("bookmarks1",bookmarks)
+    const{likes}=useSelector((state)=>state.post)
+    const {bookmarks}=useSelector((state)=>state.post)
     const dispatch = useDispatch();
-    console.log(props,user)
-    const handleLike=()=>{
+
+    const handleLike=async()=>{
         const userId = props.author ? props.author._id : null;
+        console.log(userId)
         if(userId){
-            dispatch(updateLikes(props.item._id,user._id))
+            const res=await dispatch(updateLikes(props.item._id,user._id))
         }
     }
 
-    const handleBookmark = () => {
+    const handleBookmark = async() => {
         const userId = props.author ? props.author._id : null;
         if (userId) {
-            dispatch(updateBookmarks(props.item._id, user._id))
+            const res=dispatch(updateBookmarks(props.item._id, user._id))
         }
     };
-    console.log("likes state",likes,"bookmarks state",bookmarks)
 
-    const handleDelete=()=>{
+    const handleDelete=async()=>{
         const postId = props.item ? props.item._id : null;
         if (postId) {
-            dispatch(deletePost(postId))
+            window.confirm('Are you sure you want to delete this article?')
+            const res=await dispatch(deletePost(postId))
+            if(res.status===200){
+                window.location.href='/'
+            }
+            else{
+                alert('Failed to delete article')
+                window.location.href='/'
+            }
         }
 
     }
@@ -69,7 +76,7 @@ function PostCard(props) {
             }
          </button>
          <button onClick={handleDelete}>
-            {user &&props.author && (user._id===props.author._id) && (<img src="/images/icons8-delete-32.png" alt="edit"/>)}
+            {user &&props.author && (user._id===props.author._id) && (<img src={IMAGES.delete} alt="delete"/>)}
          </button>
         </div>
     </div>

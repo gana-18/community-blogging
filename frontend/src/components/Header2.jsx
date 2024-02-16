@@ -6,8 +6,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { logoutUser } from "../actions/authActions";
 function Header2({user}) {
     const dispatch = useDispatch();
-    const logout = () => {
-        dispatch(logoutUser());
+    const logout = async() => {
+        await dispatch(logoutUser());
         window.location.href = '/';
     }
     const [toggleMenu, setToggleMenu] = useState(false)

@@ -139,19 +139,19 @@ const getFollowing=async(req,res)=>{
 const likePost=async(req,res)=>{
     try {
         const { id } = req.params;
-        const { userId } = req.body;
+        const {likedUser}=req.body;
         const post = await Post.findById(id);
         if (!post) {
           // Handle the case where the post data is not found
           return res.status(404).json({ message: 'Post not found' });
         }
         // Check if the user has already liked the post
-        if (post.likes.get(userId)) {
+        if (post.likes.get(likedUser)) {
           // If the user has already liked the post, then unlike it
-          post.likes.delete(userId);
+          post.likes.delete(likedUser);
         } else {
           // If the user has not liked the post, then like it
-          post.likes.set(userId, true);
+          post.likes.set(likedUser, true);
         }
         await post.save();
         res.status(200).json(post.likes);

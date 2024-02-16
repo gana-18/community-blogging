@@ -9,8 +9,9 @@ const IMAGES={
     heart:new URL("../images/icons8-heart-32.png",import.meta.url).href,
     write:new URL("../images/icons8-write-32.png",import.meta.url).href,
     following:new URL("../images/icons8-following-32.png",import.meta.url).href,
-    follow:new URL("../images/icons8-follow-48.png",import.meta.url).href,
+    follow:new URL("../images/icons8-add-friends-32.png",import.meta.url).href,
     love:new URL("../images/icons8-love-24.png",import.meta.url).href,
+    delete:new URL("../images/icons8-delete-32.png",import.meta.url).href,
 }
 
 export default IMAGES;

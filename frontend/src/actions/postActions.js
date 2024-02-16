@@ -1,6 +1,6 @@
 import axios from 'axios';
 import {setPosts,setFollowingPosts,setAuthor,setFollowAuthor,setLikes,setBookmarks} from '../reducers/postReducer';
-import { useSelector } from 'react-redux';
+import {createAsyncThunk} from '@reduxjs/toolkit';
 
 export const fetchPosts = () => async (dispatch) => {
     try {
@@ -8,7 +8,6 @@ export const fetchPosts = () => async (dispatch) => {
         const response= await axios.get(url);
 
             const posts=response.data;
-            console.log("posts are",posts)
             // Dispatch action to update the Redux store
             dispatch(setPosts(posts));
     } catch (error) {
@@ -91,28 +90,12 @@ export const fetchFollowing = (id) => async (dispatch) => {
     }
 }
 
-export const addFollowing = (authorId,thunkAPI) => async(dispatch)=>{
+export const addFollowing = (authorId,userId) => async(dispatch)=>{
     try {
-        const {auth}=thunkAPI.getState();
-        const {user}=auth;
-        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/follow/${authorId}`, {
-            method: "POST",
-            credentials: "include",
-            headers: {
-              Accept: "application/json",
-              "Content-Type": "application/json",
-              "Access-Control-Allow-Credentials": true,
-            },
-            body: JSON.stringify({ followingUser: user._id }),
-      
-          });
-          if (response.status === 200) {
-            const resObject = await response.json();
-            console.log(resObject);
-            return resObject;
-          } else {
-            throw new Error("author rendering has failed!");
-          } 
+        const url=`${import.meta.env.VITE_BACKEND_URL}/follow/${authorId}`
+        const response= await axios.post(url,{followingUser:userId})
+        const resObject = await response.data;
+        return resObject;
     } catch (error) {
       console.error('following fetch failed:', error);
       // Dispatch action for login failure if needed
@@ -120,28 +103,12 @@ export const addFollowing = (authorId,thunkAPI) => async(dispatch)=>{
     }
 }
 
-export const removeFollowing = (authorId,thunkAPI) => async(dispatch)=>{
+export const removeFollowing = (authorId,userId) => async(dispatch)=>{
     try {
-        const {auth}=thunkAPI.getState();
-        const {user}=auth;
-        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/unfollow/${authorId}`, {
-            method: "POST",
-            credentials: "include",
-            headers: {
-              Accept: "application/json",
-              "Content-Type": "application/json",
-              "Access-Control-Allow-Credentials": true,
-            },
-            body: JSON.stringify({ followingUser: user._id }),
-      
-          });
-          if (response.status === 200) {
-            const resObject = await response.json();
-            console.log(resObject);
-            return resObject;
-          } else {
-            throw new Error("author rendering has failed!");
-          } 
+        const url=`${import.meta.env.VITE_BACKEND_URL}/unfollow/${authorId}`
+        const response= await axios.post(url,{followingUser:userId})
+        const resObject = await response.data;
+        return resObject; 
     } catch (error) {
       console.error('following fetch failed:', error);
       // Dispatch action for login failure if needed
@@ -149,28 +116,13 @@ export const removeFollowing = (authorId,thunkAPI) => async(dispatch)=>{
     }
 }
 
-export const updateLikes = (id,thunkAPI) => async(dispatch)=>{
+export const updateLikes = (id,userId) => async(dispatch)=>{
     try {
-        const {auth}=thunkAPI.getState();
-        const {user}=auth;
-        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/like/${id}`, {
-            method: "POST",
-            credentials: "include",
-            headers: {
-              Accept: "application/json",
-              "Content-Type": "application/json",
-              "Access-Control-Allow-Credentials": true,
-            },
-            body: JSON.stringify({ likedUser: user._id }),
-      
-          });
-          if (response.status === 200) {
-            const resObject = await response.json();
+         const url=`${import.meta.env.VITE_BACKEND_URL}/like/${id}`
+        const response= await axios.post(url,{likedUser:userId});
+            const resObject = await response.data;
             dispatch(setLikes(resObject));
-            return resObject;
-          } else {
-            throw new Error("author rendering has failed!");
-          } 
+            return resObject; 
     } catch (error) {
       console.error('following fetch failed:', error);
       // Dispatch action for login failure if needed
@@ -178,28 +130,13 @@ export const updateLikes = (id,thunkAPI) => async(dispatch)=>{
     }
 }
 
-export const updateBookmarks = (id,thunkAPI) => async(dispatch)=>{
+export const updateBookmarks = (id,userId) => async(dispatch)=>{
     try {
-        const {auth}=thunkAPI.getState();
-        const {user}=auth;
-        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/bookmark/${id}`, {
-            method: "POST",
-            credentials: "include",
-            headers: {
-              Accept: "application/json",
-              "Content-Type": "application/json",
-              "Access-Control-Allow-Credentials": true,
-            },
-            body: JSON.stringify({ bookmarkedUser: user._id }),
-      
-          });
-          if (response.status === 200) {
-            const resObject = await response.json();
+        const url=`${import.meta.env.VITE_BACKEND_URL}/bookmark/${id}`
+        const response= await axios.post(url,{userId});
+            const resObject = await response.data;
             dispatch(setBookmarks(resObject));
             return resObject;
-          } else {
-            throw new Error("author rendering has failed!");
-          } 
     } catch (error) {
       console.error('following fetch failed:', error);
       // Dispatch action for login failure if needed
@@ -210,26 +147,12 @@ export const updateBookmarks = (id,thunkAPI) => async(dispatch)=>{
 export const deletePost = (id) => async(dispatch)=>{
     try {
         const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/post/${id}`, {
-            method: "DELETE",
-            credentials: "include",
-            headers: {
-              Accept: "application/json",
-              "Content-Type": "application/json",
-              "Access-Control-Allow-Credentials": true,
-            },
-      
+            method: "PUT",
           });
-          if (response.status === 200) {
-            const resObject = await response.json();
-            console.log(resObject);
-            return resObject;
-          } else {
-            throw new Error("author rendering has failed!");
-          } 
+          return response;
     } catch (error) {
       console.error('following fetch failed:', error);
       // Dispatch action for login failure if needed
        dispatch({ type: 'following_fetch_failure', payload: { error: 'following fetch failed' } });
     }
 }
-

@@ -3,13 +3,27 @@ import { useDispatch } from 'react-redux';
 import { loginUser } from '../actions/authActions';
 import { redirect, useNavigate } from 'react-router-dom';
 import IMAGES from '../images/images';
+import LoadingPage from '../Loading';
 const Login = () => {
   const dispatch = useDispatch();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const handleLogin = (e) => {
+  const [errorMsg,setErrorMsg]= useState('')
+  const [clicked,setClicked]=useState(false)
+  const handleLogin = async(e) => {
     e.preventDefault();
-    dispatch(loginUser({ email, password }));
+    const res= await dispatch(loginUser({ email, password }));
+    if(res=="401"){
+      setErrorMsg("Invalid credentials")
+    }
+    else{
+      setErrorMsg("Internal Server Error.Try refreshing the page")
+    }
+  };
+
+  const eStyle={
+    color:"red",
+    marginTop:"10px"
   };
 
   return (
@@ -22,12 +36,13 @@ const Login = () => {
         <p>Guillermo Rauch</p><span>CEO, Vercel</span>
       </div>
       <div className='main'>
-        <h2>Login</h2>
+        <h2>Welcome Back🚀</h2>
         <div className='login-input'>
         <form onSubmit={(e)=>{handleLogin(e)}}>
             <input type="email" className='text' placeholder='Email' value={email} onChange={(e) => setEmail(e.target.value)} />
             <input type="password" className='text' placeholder='Password' value={password} onChange={(e) => setPassword(e.target.value)} />
-        <button className='login-submit' type="submit">Login</button>
+            {errorMsg?<p style={eStyle}>*{errorMsg}🫤</p>:null}
+        <button className='login-submit' type="submit" onClick={()=>setClicked(true)}>{!errorMsg && clicked?<LoadingPage/>:"Login"}</button>
         </form>
       </div>
       <p>New to InsideCode? <a href="/signup">Sign up now</a></p>
