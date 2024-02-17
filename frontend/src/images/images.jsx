@@ -12,6 +12,7 @@ const IMAGES={
     follow:new URL("../images/icons8-add-friends-32.png",import.meta.url).href,
     love:new URL("../images/icons8-love-24.png",import.meta.url).href,
     delete:new URL("../images/icons8-delete-32.png",import.meta.url).href,
+    arrow:new URL("../images/icons8-expand-arrow-32.png",import.meta.url).href,
 }
 
 export default IMAGES;

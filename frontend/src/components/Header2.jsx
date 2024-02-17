@@ -52,8 +52,7 @@ function Header2({user}) {
       <li className="items"><Link to={`/profile/${user._id}`}style={linkStyle}><img style={imgStyle} src={user.profilePic} alt="user" /> </Link></li>
     </ul>
       )}
-
-      <button onClick={toggleNav} className="btn">BTN</button>
+      <button style={{backgroundColor:'white', border:'none'}} onClick={toggleNav} className="btn"><img src={IMAGES.arrow} alt="arrow"/></button>
     </nav>
     </div>
     </>
