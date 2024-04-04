@@ -97,7 +97,7 @@ const BlogInput = () => {
         )}
       </div>
       <Editor
-        apiKey='pg6uipndbhqb5e6kzo0dme3xh0gk8q7q4v8tpkeqa8r28m19'
+        apiKey={import.meta.env.VITE_EDITOR_API}
         onInit={(evt, editor) => (editorRef.current = editor)}
         value={blogData.content}
         init={{
