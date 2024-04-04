@@ -13,6 +13,22 @@ function Home() {
   const dispatch = useDispatch();
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState([]);
+  const [drafts, setDrafts] = useState([]);
+
+  
+  useEffect(() => {
+    const getDrafts = async () => {
+      try {
+        const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/drafts/${user._id}`, {method: 'GET'});
+        const data = await res.json();
+        setDrafts(data);
+      }catch (error) {
+        console.log(error);
+      }
+    }
+    getDrafts();
+  },[posts])
+
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);
   };
@@ -23,7 +39,7 @@ function Home() {
     );
     setSearchResults(filteredPosts);
   },[searchTerm])
-  console.log(searchResults);
+  
 
   useEffect(() => {
     dispatch(fetchPosts())
@@ -51,7 +67,6 @@ function Home() {
     />
   ));
 const url=user? `/home/following/${user._id}` : `/`;
-  
   return (
     <>
       <div className="home">
@@ -88,11 +103,19 @@ const url=user? `/home/following/${user._id}` : `/`;
           </SideCard>
           <SideCard >
             <h3>Read by topics⬇️</h3>
-            {posts?.map((item)=>{
+            {posts?.slice(0,3).map((item)=>{
               return <Link to={`/topics/${item.topic}`} key={item._id} style={{margin:'0.5px'}}>
                 <p>{item.topic}</p>
               </Link>
             })}
+          </SideCard>
+          <SideCard >
+            <h3>Publish your Drafts📝</h3>
+            {drafts?drafts.slice(0,3).map((item)=>{
+              return <Link to={`/edit/${item._id}`} key={item._id} style={{margin:'0.5px'}}>
+                <p>Draft-{item.topic}</p>
+              </Link>
+            }):<p>No drafts found</p>}
           </SideCard>
         </div>
       </div>

@@ -1,6 +1,6 @@
 const express=require('express')
 const router=express.Router()
-const {createPost,getPost,deletePost}=require('../controllers/postControllers')
+const {createPost,getPost,deletePost,updatePost}=require('../controllers/postControllers')
 
 // @desc CREATE POST
 // @Method POST
@@ -12,9 +12,7 @@ router.get('/:id',getPost)
 
 // @desc UPDATE POST BY ID OF USER
 // @Method PUT
-router.put('/user/:id',(req,res)=>{
-    res.send("update post by id")
-})
+router.put('/edit/:id',updatePost)
 
 // @desc DELETE POST BY ID OF USER
 // @Method DELETE

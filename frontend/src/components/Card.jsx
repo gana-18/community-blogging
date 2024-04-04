@@ -1,6 +1,5 @@
 import { useState,useEffect } from 'react';
 function Card(props) {  
-    console.log(props)
     let followersCount = props.user.followers.length;  
     let followingCount = props.user.following.length;
     let memberSince = props.user.createdAt;

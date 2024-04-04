@@ -5,11 +5,40 @@ const User=require('../models/User')
 // @end point: /home
 const getPosts=async(req,res)=>{
     try {
-        const posts=await Post.find({}).sort({createdAt:-1})
+        const posts=await Post.find({published:true}).sort({createdAt:-1})
         res.status(200).json(posts)
     } catch (error) {
         res.status(500).json({message:error.message})
     }
+}
+
+//@desc: GET DRAFTS OF USER
+//@access: Private
+//@end point: /drafts/:id
+const getDrafts=async(req,res)=>{
+    try {
+        const { id } = req.params;
+        const drafts = await Post.find({ user: id, published: false }).sort({ createdAt: -1 });
+        res.status(200).json(drafts);
+      } catch (error) {
+        res.status(500).json({ message: error.message });
+      }
+}
+
+// @desc: GET DRAFTS BY POST ID 
+// @access: Private
+// @end point: /draft/:id
+const getDraft=async(req,res)=>{
+    try {
+        const { id } = req.params;
+        const draft = await Post.findOne({_id:id, published: false});
+        if (!draft) {
+          return res.status(404).json({ message: 'Draft not found' });
+        }
+        res.status(200).json(draft);
+      } catch (error) {
+        res.status(500).json({ message: error.message });
+      }
 }
 
 // @desc:GET POSTS BY FOLLOWING USERS
@@ -23,7 +52,8 @@ const getFollowingPosts=async(req,res)=>{
         return res.status(404).json({ message: 'User not found' });
       }
       const followingIds = user.following;
-      const followingposts=await Post.find({ user: { $in: followingIds } }).sort({ createdAt: -1 });
+      // Find posts where the user ID is in the following array and the post is published i.e true
+      const followingposts = await Post.find({ user: { $in: followingIds }, published: true }).sort({ createdAt: -1 });
       res.status(200).json(followingposts);
     } catch (error) {
         res.status(500).json({message:error.message})
@@ -167,6 +197,7 @@ const addBookmark=async(req,res)=>{
     try {
         const { id } = req.params;
         const { userId } = req.body;
+        let m;
         const user = await User.findById(userId);
         if (!user) {
           // Handle the case where the post data is not found
@@ -176,9 +207,11 @@ const addBookmark=async(req,res)=>{
         if (user.bookmarks.get(id)) {
           // If the user has already bookmarked the post, then remove it
           user.bookmarks.delete(id);
+          m = 'Bookmark removed'
         } else {
           // If the user has not bookmarked the post, then bookmark it
           user.bookmarks.set(id, true);
+          m = 'Bookmark added'
         }
         await user.save();
         res.status(200).json(user.bookmarks);
@@ -197,4 +230,6 @@ module.exports={
     getFollowing,
     likePost,
     addBookmark,
+    getDrafts,
+    getDraft
 }

@@ -136,7 +136,7 @@ export const updateBookmarks = (id,userId) => async(dispatch)=>{
         const response= await axios.post(url,{userId});
             const resObject = await response.data;
             dispatch(setBookmarks(resObject));
-            return resObject;
+            return response;
     } catch (error) {
       console.error('following fetch failed:', error);
       // Dispatch action for login failure if needed

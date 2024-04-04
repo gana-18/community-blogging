@@ -9,7 +9,6 @@ export default function Article(props){
       const [isFollowing, setIsFollowing] = useState(false);
 
       const {user}=useSelector((state) => state.auth);
-      const post = useSelector((state) => state.post);
 
       const formatDate = (dateString) => {
         const options = { year: 'numeric', month: 'short', day: 'numeric' };
@@ -73,7 +72,7 @@ export default function Article(props){
                     <div className='article-likes'>
                       <div className='likes'>
                       <img src={IMAGES.love} alt="heart" />
-                      <span>{Object.keys(props.item.likes)?Object.keys(props.item.likes).length:0}</span>
+                      <span>{Object.keys(props.item?props.item.likes:0)?Object.keys(props.item?props.item.likes:0).length:0}</span>
                       </div>
                       <div className='views'>
                       <img src={IMAGES.eye} alt="views" />

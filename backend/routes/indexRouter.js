@@ -1,9 +1,9 @@
 const express=require('express')
 const router=express.Router()
-const {getPosts,getFollowingPosts,getUser,addFollowing,removeFollowing,getFollowers,getFollowing,likePost,addBookmark}=require('../controllers/indexControllers')
+const {getPosts,getFollowingPosts,getUser,addFollowing,getDraft,removeFollowing,getFollowers,getDrafts,getFollowing,likePost,addBookmark}=require('../controllers/indexControllers')
 const verifyToken = require('../middleware/auth')
 
-router.get('/',verifyToken,(req,res)=>{
+router.get('/',(req,res)=>{
     res.send("login")
 })
 
@@ -14,6 +14,10 @@ router.post('/like/:id',likePost)
 router.post('/follow/:authorId',addFollowing)
 
 router.post('/unfollow/:authorId',removeFollowing)
+
+router.get('/drafts/:id',getDrafts)
+
+router.get('/draft/:id',getDraft)
 
 router.get('/home',getPosts)
 

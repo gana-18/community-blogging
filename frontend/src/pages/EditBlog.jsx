@@ -1,15 +1,43 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef,useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import { Editor } from '@tinymce/tinymce-react';
-import { useEffect } from 'react';
 import { selectUser } from '../reducers/authReducer';
-const BlogInput = () => {
+import { useParams } from 'react-router-dom';
+const EditBlog = () => {
+  const { id } = useParams();
+  const { posts } = useSelector((state) => state.post);
   const user = useSelector(selectUser);
+  const [draft, setDraft] = useState([]);
+  const postData=posts.find(post=>post._id===id)
+
+  useEffect(() => {
+    if (!postData) {
+      const getDrafts = async () => {
+        try {
+          const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/draft/${id}`, { method: 'GET' });
+          const data = await res.json();
+          setDraft(data);
+          // Set the initial state of blogData here with the fetched draft data
+          setBlogData({
+            title: data.title,
+            content: data.content,
+            coverImage: data.coverImage,
+            topic: data.topic
+          });
+        } catch (error) {
+          console.log(error);
+        }
+      }
+      getDrafts();
+    }
+  }, [postData, user._id, id]);
+  
+
   const [blogData, setBlogData] = useState({
-    title: '',
-    content: 'Start your Blog',
-    coverImage: null,
-    topic: ''
+    title: postData?.title,
+    content: postData?.content,
+    coverImage: postData?.overImage,
+    topic: postData?.topic
   });
   const editorRef = useRef();
 
@@ -45,8 +73,8 @@ const BlogInput = () => {
   };
 
   const handleSubmit = () => {
-    fetch(`${import.meta.env.VITE_BACKEND_URL}/post/create/${user._id}`, {
-      method: 'POST',
+    fetch(`${import.meta.env.VITE_BACKEND_URL}/post/edit/${id}`, {
+      method: 'PUT',
       headers: {
         'Content-Type': 'application/json', // Set the Content-Type header to indicate JSON data
       },
@@ -61,10 +89,9 @@ const BlogInput = () => {
         console.error('Error submitting blog:', error);
       });
   };
-
   const handleDraft = () => {
-    fetch(`${import.meta.env.VITE_BACKEND_URL}/post/create/${user._id}`, {
-      method: 'POST',
+    fetch(`${import.meta.env.VITE_BACKEND_URL}/post/edit/${id}`, {
+      method: 'PUT',
       headers: {
         'Content-Type': 'application/json', // Set the Content-Type header to indicate JSON data
       },
@@ -78,7 +105,8 @@ const BlogInput = () => {
       .catch((error) => {
         console.error('Error submitting blog:', error);
       });
-  }
+  };
+
   return (
     <>
     <div className='blog'>
@@ -116,11 +144,11 @@ const BlogInput = () => {
         onEditorChange={handleEditorChange}
       />
       <button className='submit-blog' onClick={handleDraft}>Save as Draft📝</button>
-      <button className='submit-blog' onClick={handleSubmit}>Publish🚀</button>
+      <button className='submit-blog' onClick={handleSubmit}>Save & Publish🚀</button>
       </div>
     </div>
     </>
   );
 };
 
-export default BlogInput;
+export default EditBlog;

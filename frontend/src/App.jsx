@@ -12,6 +12,7 @@ import Bookmarks from "./pages/Bookmarks";
 import Following from "./pages/Following";
 import Signup from './pages/Signup';
 import TopicPage from './pages/TopicPage';
+import EditBlog from './pages/EditBlog';
 function App() {
   const user=useSelector(selectUser);
   return (
@@ -26,6 +27,7 @@ function App() {
             <Route path= {user ? `/post/create/${user._id}` : '/'} element={<BlogInput/>}/>
             <Route path="/profile/:id" element={<Profile/>}/>
             <Route path="/post/:id" element={<Post/>}/>
+            <Route path="/edit/:id" element={<EditBlog/>}/>
             <Route path="/bookmarks" element={<Bookmarks/>}/>
             <Route path="/user/following" element={<Following/>}/>
             <Route path="/topics/:id" element={<TopicPage/>}/>

@@ -54,10 +54,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width:45%;
+    width:43%;
   }
   .main{
-    width:30%;
+    width:31%;
     height:auto;
     background-color:white;
     border: 1px solid #E0E6F1;
@@ -103,6 +103,7 @@
     width:100%;
     padding:10px;
     margin-top:25px;
+    margin-bottom: 10px;
     color: #FEECEA;
     background-color: #6248EA;
     border: none;
@@ -188,6 +189,9 @@
     }
     .login{
       flex-direction: column;
+    }
+    .main{
+      width:80%;
     }
     .login-btn{
       width:100%;
@@ -331,7 +335,7 @@
     margin-top:20px;
     padding:15px;
     width:100%;
-    height:260px;
+    height:270px;
     background-color: white;
     border-radius: 10px;
     transition: all 0.5s ease;
@@ -365,6 +369,7 @@
     justify-content: flex-start;
   }
   .content{
+    width:100%;
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 3;
@@ -380,7 +385,7 @@
   .blog-right{
     display: flex;
     flex-direction: column;
-    width:40%;
+    width:39%;
   }
   .blog-right>img{
     width:100%;
@@ -397,8 +402,8 @@
     margin-right: 10px;
   }
   .userpic>img{
-    width:100%;
-    height:100%;
+    width:60px;
+    height:60px;
     object-fit: cover;
     border-radius: 50%;
     transition: all 0.5s ease;
@@ -488,7 +493,7 @@
     justify-content: center;
   }
   .postcard{
-    width:70%;
+    width:80%;
     margin-top:30px;
     padding:20px;
     display: flex;
@@ -512,9 +517,12 @@
   .posttitle>div{
     display: flex;
     flex-direction: row;
-    align-items: center;
-    justify-content: center;
+    align-items:center;
+    justify-content:space-evenly;
     margin-top:30px;
+  }
+  .posttitle>div>h3{
+    margin-right: 20px;
   }
   .posttitle>div>img{
     width:50px;
@@ -606,6 +614,7 @@
   }
   .submit-blog{
     margin-top:30px;
+    margin-right: 15px;
     padding:10px;
     background-color: #2563EB;
     color:white;
@@ -731,8 +740,9 @@
     }
     .userpic>img{
       width:100%;
-      height:auto;
+      height:100%;
       border-radius: 50%;
+      object-fit: cover;
     }
   }
   @media screen and (max-width: 450px){
@@ -749,5 +759,8 @@
     .logo{
       justify-content: flex-start;
       align-items: flex-start;
+    }
+    .main{
+      width:95%;
     }
   }

@@ -31,6 +31,27 @@ const signupUser = async (req, res) => {
     }
   };
 
+  const signupGoogleUser = async (req, res) => {
+    try {
+       const {email,family_name,given_name,name,picture}=req.body;
+        const existingUser = await User.findOne({email:email});
+        if (existingUser) {
+          return res.status(200).json(existingUser);
+        }
+        const user = new User({
+          username:name,
+          firstName:given_name,
+          lastName:family_name,
+          email:email,
+          profilePic:picture,
+          password:Math.random().toString(16)
+        });
+        await user.save();
+        res.status(201).json(user);
+    } catch (error) {
+      
+    }
+  };
 
 const loginUser = async (req, res) => {
         try {
@@ -75,5 +96,6 @@ const logoutUser = async (req, res) => {
 module.exports={
         signupUser,
         loginUser,
-        logoutUser
+        logoutUser,
+        signupGoogleUser
 }

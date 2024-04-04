@@ -10,6 +10,7 @@ export const loginUser = (credentials) => async (dispatch) => {
           // Dispatch action to update the Redux store
           dispatch(setLogin({user,token}));
           //dispatch(setExpirationTime(expirationTime));
+          return 200
     } catch (error) {
       // Dispatch action for login failure if needed
        dispatch({ type: 'LOGIN_FAILURE', payload: { error: 'Login failed' } });
@@ -21,11 +22,24 @@ export const loginUser = (credentials) => async (dispatch) => {
     }
   };
 
+  export const loginGoogleUser = (profile) => async (dispatch) => {
+    try {
+        const url=`${import.meta.env.VITE_BACKEND_URL}/auth/signupGoogle`
+        const response= await axios.post(url,profile);
+        dispatch(setLogin({user:response.data,token:null}));
+        
+    } catch (error) {
+      console.error('Login failed:', error);
+      // Dispatch action for login failure if needed
+       dispatch({ type: 'LOGIN_FAILURE', payload: { error: 'Login failed' } });
+    }
+  }
+
  
 export const logoutUser = () => async (dispatch) => {
     try {
         const url=`${import.meta.env.VITE_BACKEND_URL}/auth/logout`
-        const response= await axios.post(url);
+        const response= await axios.get(url);
         if(response.status==200){
             // Dispatch action to update the Redux store
             dispatch(setLogout(null));

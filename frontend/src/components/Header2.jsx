@@ -3,12 +3,13 @@ import React, {useState, useEffect} from 'react'
 import IMAGES from "../images/images";
 import Write from "./Write";
 import { useDispatch, useSelector } from 'react-redux';
+import { googleLogout } from '@react-oauth/google';
 import { logoutUser } from "../actions/authActions";
 function Header2({user}) {
     const dispatch = useDispatch();
     const logout = async() => {
-        await dispatch(logoutUser());
-        window.location.href = '/';
+      await dispatch(logoutUser());
+      window.location.href = '/';
     }
     const [toggleMenu, setToggleMenu] = useState(false)
     const [screenWidth, setScreenWidth] = useState(window.innerWidth)
